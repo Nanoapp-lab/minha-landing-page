@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zetriv | Acesso Restrito</title>
+    
+    <!-- Tailwind CSS (via CDN para funcionar direto no HTML) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons (Os mesmos ícones usados no React) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <!-- Configuração das cores do seu tema para o Tailwind -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        background: '#020617', // Fundo escuro (Slate 950)
+                        card: '#0F172A',       // Fundo dos cards (Slate 900)
+                        primary: '#38BDF8',    // Azul Tech
+                        border: '#1E293B',
+                        muted: '#94A3B8'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Mantendo as classes de mensagens compatíveis com a função original */
+        #box-mensagem { display: none; padding: 12px; border-radius: 6px; margin-bottom: 20px; font-weight: 500; font-size: 0.9rem; text-align: left; }
+        .msg-erro { background-color: rgba(127, 29, 29, 0.3); color: #fca5a5; border: 1px solid rgba(185, 28, 28, 0.5); }
+        .msg-sucesso { background-color: rgba(6, 78, 59, 0.3); color: #6ee7b7; border: 1px solid rgba(4, 120, 87, 0.5); }
+        
+        /* Remove o ícone padrão de olho nas senhas do navegador para manter o design limpo */
+        input::-ms-reveal, input::-ms-clear { display: none; }
+    </style>
+</head>
+<body class="bg-background text-slate-50 min-h-screen flex justify-center items-center p-4 relative overflow-hidden font-sans selection:bg-primary selection:text-[#020617]">
+
+    <!-- Fundo Tecnológico (Igual ao da Landing Page) -->
+    <div class="absolute inset-0 overflow-hidden pointer-events-none -z-10">
+        <div class="absolute inset-0 bg-[linear-gradient(to_right,#1E293B_1px,transparent_1px),linear-gradient(to_bottom,#1E293B_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-30"></div>
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-primary/10 blur-[100px] rounded-full mix-blend-screen"></div>
+        <div class="absolute bottom-0 left-0 w-[400px] h-[400px] bg-indigo-500/10 blur-[100px] rounded-full mix-blend-screen"></div>
+    </div>
+
+    <!-- Caixa de Login (Vidro Fosco / Glassmorphism) -->
+    <div class="w-full max-w-md bg-card/60 backdrop-blur-xl border border-white/10 p-8 rounded-2xl shadow-2xl relative">
+        
+        <!-- Logo e Cabeçalho -->
+        <div class="flex flex-col items-center mb-8">
+            <div class="w-12 h-12 bg-gradient-to-br from-primary to-blue-600 rounded-lg flex items-center justify-center text-[#020617] font-mono font-bold text-2xl shadow-[0_0_15px_rgba(56,189,248,0.5)] mb-4">
+                Z
+            </div>
+            <h1 class="text-2xl font-extrabold tracking-wider text-white mb-1">ZETRIV<span class="text-primary">.</span></h1>
+            <p id="subtitulo" class="text-sm font-mono text-muted text-center flex items-center gap-2">
+                <span class="relative flex h-2 w-2">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                </span>
+                SYSTEM.LOGIN_REQUIRED
+            </p>
+        </div>
+
+        <div id="box-mensagem"></div>
+
+        <form id="auth-form" onsubmit="lidarComAutenticacao(event)" class="space-y-4">
+            
+            <div id="group-nome" style="display: none;">
+                <label class="block text-sm font-medium text-muted mb-1.5">Identificação (Nome)</label>
+                <div class="relative">
+                    <i data-lucide="user" class="absolute left-3 top-3 w-5 h-5 text-muted"></i>
+                    <input type="text" id="nome" placeholder="Seu apelido na rede" class="w-full bg-[#020617]/50 border border-white/10 rounded-md py-2.5 pl-10 pr-4 text-white placeholder-muted/50 focus:border-primary/50 focus:ring-1 focus:ring-primary/50 outline-none transition-all">
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-muted mb-1.5">Credencial (E-mail)</label>
+                <div class="relative">
+                    <i data-lucide="mail" class="absolute left-3 top-3 w-5 h-5 text-muted"></i>
+                    <input type="email" id="email" placeholder="admin@zetriv.com.br" required class="w-full bg-[#020617]/50 border border-white/10 rounded-md py-2.5 pl-10 pr-4 text-white placeholder-muted/50 focus:border-primary/50 focus:ring-1 focus:ring-primary/50 outline-none transition-all">
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-muted mb-1.5">Chave de Acesso (Senha)</label>
+                <div class="relative">
+                    <i data-lucide="lock" class="absolute left-3 top-3 w-5 h-5 text-muted"></i>
+                    <input type="password" id="senha" placeholder="••••••••" minlength="6" required class="w-full bg-[#020617]/50 border border-white/10 rounded-md py-2.5 pl-10 pr-4 text-white placeholder-muted/50 focus:border-primary/50 focus:ring-1 focus:ring-primary/50 outline-none transition-all">
+                </div>
+            </div>
+
+            <button type="submit" id="btn-submit" class="w-full bg-primary text-[#020617] font-bold py-3 px-4 rounded-md hover:bg-primary/90 transition-all flex justify-center items-center gap-2 shadow-[0_0_15px_rgba(56,189,248,0.3)] hover:shadow-[0_0_25px_rgba(56,189,248,0.5)] mt-6">
+                Estabelecer Conexão
+            </button>
+        </form>
+
+        <div class="mt-8 pt-6 border-t border-white/10 text-center">
+            <span id="alternar-texto" class="text-sm text-muted">Novo na infraestrutura?</span> 
+            <a href="#" id="link-alternar" onclick="alternarTela(event)" class="text-sm text-primary hover:text-primary/80 font-medium hover:underline ml-1">Solicitar Acesso</a>
+        </div>
+
+        <div class="mt-6 text-center">
+            <a href="/" class="inline-flex items-center justify-center gap-2 text-xs font-medium text-muted hover:text-white transition-colors">
+                <i data-lucide="arrow-left" class="w-3 h-3"></i> Retornar ao painel principal
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Transforma as tags <i> em ícones SVG reais
+        lucide.createIcons();
+
+        // --- LÓGICA DO SUPABASE INTACTA ---
+        const SUPABASE_URL = "https://zfmbmjpamaqficaxxvhg.supabase.co";
+        const SUPABASE_KEY = "sb_publishable_d1P-KdJdQ-IYbKvvvFSbDw_S6Gts8gY";
+        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        let ModoCadastro = false;
+
+        async function verificarSessaoAtiva() {
+            try {
+                const { data: { session } } = await _supabase.auth.getSession();
+                if (session) {
+                    window.location.href = 'comunidade.html';
+                }
+            } catch (err) {
+                console.error("Erro ao verificar sessão", err);
+            }
+        }
+        verificarSessaoAtiva(); 
+
+        function mostrarMensagem(texto, tipo) {
+            const box = document.getElementById('box-mensagem');
+            box.innerText = texto;
+            box.style.display = 'block';
+            box.className = tipo === 'erro' ? 'msg-erro' : 'msg-sucesso';
+        }
+
+        function ocultarMensagem() {
+            document.getElementById('box-mensagem').style.display = 'none';
+        }
+
+        function alternarTela(event) {
+            event.preventDefault();
+            ocultarMensagem();
+            ModoCadastro = !ModoCadastro;
+            
+            const campoNome = document.getElementById('group-nome');
+            const titulo = document.getElementById('subtitulo');
+            const btnSubmit = document.getElementById('btn-submit');
+            const alternarTexto = document.getElementById('alternar-texto');
+            const linkAlternar = document.getElementById('link-alternar');
+
+            if (ModoCadastro) {
+                campoNome.style.display = 'block';
+                titulo.innerHTML = 'REGISTRO DE NOVO USUÁRIO';
+                btnSubmit.innerText = 'Cadastrar Credencial';
+                alternarTexto.innerText = 'Já possui credenciais?';
+                linkAlternar.innerText = 'Autenticar';
+            } else {    
+                campoNome.style.display = 'none';
+                titulo.innerHTML = '<span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span></span>SYSTEM.LOGIN_REQUIRED';
+                btnSubmit.innerText = 'Estabelecer Conexão';
+                alternarTexto.innerText = 'Novo na infraestrutura?';
+                linkAlternar.innerText = 'Solicitar Acesso';
+            }
+        }
+
+        async function lidarComAutenticacao(event) {
+            event.preventDefault();
+            ocultarMensagem();
+            
+            const email = document.getElementById('email').value.trim();
+            const senha = document.getElementById('senha').value;
+            const nome = document.getElementById('nome').value.trim();
+            const btnSubmit = document.getElementById('btn-submit');
+
+            // Adiciona efeito visual de carregamento no botão
+            btnSubmit.innerHTML = '<i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i> Processando...';
+            lucide.createIcons(); // Recarrega o ícone de loading
+            btnSubmit.disabled = true;
+            btnSubmit.classList.add('opacity-70', 'cursor-not-allowed');
+
+            if (ModoCadastro) {
+                const { data, error } = await _supabase.auth.signUp({
+                    email: email,
+                    password: senha,
+                    options: { data: { display_name: nome || 'Membro_Zetriv' } }
+                });
+
+                if (error) {
+                    mostrarMensagem("Erro no registro: " + error.message, 'erro');
+                    btnSubmit.disabled = false;
+                    btnSubmit.classList.remove('opacity-70', 'cursor-not-allowed');
+                    btnSubmit.innerText = 'Cadastrar Credencial';
+                } else {
+                    mostrarMensagem("Acesso concedido! Redirecionando...", 'sucesso');
+                    setTimeout(() => window.location.href = 'comunidade.html', 1500);
+                }
+            } else {
+                const { data, error } = await _supabase.auth.signInWithPassword({
+                    email: email,
+                    password: senha
+                });
+
+                if (error) {
+                    mostrarMensagem("Acesso Negado: Credenciais inválidas.", 'erro');
+                    btnSubmit.disabled = false;
+                    btnSubmit.classList.remove('opacity-70', 'cursor-not-allowed');
+                    btnSubmit.innerText = 'Estabelecer Conexão';
+                } else {
+                    window.location.href = 'comunidade.html';
+                }
+            }
+        }
+    </script>
+</body>
+</html>

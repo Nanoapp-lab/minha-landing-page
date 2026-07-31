@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zetriv | Painel da Comunidade</title>
+    
+    <!-- Tailwind CSS (via CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <!-- Configuração do Tema -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        background: '#020617',
+                        card: '#0F172A',
+                        primary: '#38BDF8',
+                        border: '#1E293B',
+                        muted: '#94A3B8'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-slate-50 min-h-screen relative font-sans selection:bg-primary selection:text-[#020617] pb-12">
+
+    <!-- Fundo Tecnológico -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none -z-10">
+        <div class="absolute inset-0 bg-[linear-gradient(to_right,#1E293B_1px,transparent_1px),linear-gradient(to_bottom,#1E293B_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-30"></div>
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-primary/10 blur-[120px] rounded-full mix-blend-screen"></div>
+    </div>
+
+    <!-- Barra de Navegação -->
+    <nav class="border-b border-white/5 bg-card/50 backdrop-blur-xl sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-gradient-to-br from-primary to-blue-600 rounded-lg flex items-center justify-center text-[#020617] font-mono font-bold text-xl shadow-[0_0_15px_rgba(56,189,248,0.5)]">
+                    Z
+                </div>
+                <span class="font-extrabold text-xl tracking-wider text-white">ZETRIV<span class="text-primary">.</span></span>
+            </div>
+            
+            <button onclick="fazerLogout()" class="bg-white/5 hover:bg-white/10 border border-white/10 text-white px-4 py-2 text-sm font-medium rounded-md transition-all flex items-center gap-2 hover:border-red-500/50 hover:text-red-400">
+                <i data-lucide="log-out" class="w-4 h-4"></i> Desconectar
+            </button>
+        </div>
+    </nav>
+
+    <!-- Conteúdo Principal -->
+    <main class="max-w-7xl mx-auto px-6 pt-12" id="conteudo-principal" style="display: none;">
+        
+        <!-- Cabeçalho de Boas-vindas -->
+        <div class="mb-12">
+            <div class="inline-flex items-center gap-2 px-3 py-1.5 bg-primary/10 border border-primary/20 text-primary rounded-full text-xs font-semibold tracking-wide mb-4">
+                <i data-lucide="shield-check" class="w-4 h-4"></i>
+                SESSÃO AUTENTICADA
+            </div>
+            <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-2">
+                Bem-vindo à <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-indigo-400">Comunidade.</span>
+            </h1>
+            <p class="text-muted text-lg">Identificação ativa: <strong id="user-nome" class="text-white">Carregando...</strong></p>
+        </div>
+
+        <!-- Grid do Dashboard -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <!-- Card 1: Perfil -->
+            <div class="bg-card/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6 shadow-xl flex flex-col justify-between group hover:border-primary/30 transition-colors">
+                <div>
+                    <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary mb-4 border border-primary/20">
+                        <i data-lucide="user" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-1">Seu Perfil</h3>
+                    <p id="user-email" class="text-sm text-muted">Carregando e-mail...</p>
+                </div>
+                <div class="mt-6 pt-4 border-t border-white/5 text-xs font-mono text-primary flex items-center gap-2">
+                    <span class="relative flex h-2 w-2">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                    </span>
+                    STATUS: ONLINE
+                </div>
+            </div>
+
+            <!-- Card 2: Ferramentas -->
+            <div class="bg-card/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6 shadow-xl group hover:border-indigo-400/30 transition-colors md:col-span-2">
+                <div class="flex items-center gap-3 mb-6">
+                    <i data-lucide="cpu" class="w-6 h-6 text-indigo-400"></i>
+                    <h3 class="text-xl font-bold text-white">Módulos do Sistema</h3>
+                </div>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="p-4 border border-white/5 bg-white/[0.02] rounded-lg hover:bg-white/[0.05] transition-colors cursor-pointer flex items-center gap-4">
+                        <div class="p-2 bg-white/5 rounded-md"><i data-lucide="message-square" class="w-5 h-5 text-muted"></i></div>
+                        <div>
+                            <h4 class="font-medium text-white text-sm">Fórum de Discussão</h4>
+                            <p class="text-xs text-muted mt-1">Em breve</p>
+                        </div>
+                    </div>
+                    <div class="p-4 border border-white/5 bg-white/[0.02] rounded-lg hover:bg-white/[0.05] transition-colors cursor-pointer flex items-center gap-4">
+                        <div class="p-2 bg-white/5 rounded-md"><i data-lucide="folder-kanban" class="w-5 h-5 text-muted"></i></div>
+                        <div>
+                            <h4 class="font-medium text-white text-sm">Projetos Compartilhados</h4>
+                            <p class="text-xs text-muted mt-1">Em breve</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        lucide.createIcons();
+
+        const SUPABASE_URL = "https://zfmbmjpamaqficaxxvhg.supabase.co";
+        const SUPABASE_KEY = "sb_publishable_d1P-KdJdQ-IYbKvvvFSbDw_S6Gts8gY";
+        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        // Verifica se o usuário tem permissão para estar nesta página
+        async function protegerPagina() {
+            try {
+                const { data: { session }, error } = await _supabase.auth.getSession();
+                
+                if (error || !session) {
+                    // Sem sessão ativa: joga de volta pro login
+                    window.location.href = 'login.html';
+                } else {
+                    // Tem sessão: mostra o painel e os dados do usuário
+                    document.getElementById('conteudo-principal').style.display = 'block';
+                    
+                    const user = session.user;
+                    const nomeExibicao = user.user_metadata?.display_name || 'Membro Zetriv';
+                    
+                    document.getElementById('user-nome').innerText = nomeExibicao;
+                    document.getElementById('user-email').innerText = user.email;
+                }
+            } catch (err) {
+                console.error("Erro na verificação", err);
+                window.location.href = 'login.html';
+            }
+        }
+
+        // Função de Sair (Logout)
+        async function fazerLogout() {
+            await _supabase.auth.signOut();
+            window.location.href = 'login.html';
+        }
+
+        // Executa a proteção de tela assim que a página carrega
+        protegerPagina();
+    </script>
+</body>
+</html>
