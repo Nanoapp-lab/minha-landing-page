@@ -300,7 +300,7 @@ SYSTEM.ACTIVE
 
 
 
-const ServiceSection = ({ id, title, subtitle, icon: Icon, features, isReversed = false }) => {
+const ServiceSection = ({ id, title, subtitle, icon: Icon, features, isReversed = false }: any) => {
 
 return (
 
