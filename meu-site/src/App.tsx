@@ -9,20 +9,96 @@ import {
   Menu,
   X,
   ShieldCheck,
-  Cpu
+  Cpu,
+  Building2,
+  Binary
 } from 'lucide-react';
 
 const TechBackground = () => (
   <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10">
-    {/* Malha/Grid tecnológico de fundo */}
     <div className="absolute inset-0 bg-[linear-gradient(to_right,#1E293B_1px,transparent_1px),linear-gradient(to_bottom,#1E293B_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-30" />
-
-    {/* Efeitos de brilho (Glows) estratégicos */}
     <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-primary/20 blur-[120px] rounded-full mix-blend-screen" />
     <div className="absolute top-1/4 right-0 w-[400px] h-[400px] bg-indigo-500/10 blur-[100px] rounded-full mix-blend-screen" />
     <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-primary/10 blur-[120px] rounded-full mix-blend-screen" />
   </div>
 );
+
+// --- NOVA ANIMAÇÃO TAB ---
+const TabScanner = () => {
+  // Gera fluxos de dados flutuantes aleatórios
+  const binaryStream = Array.from({ length: 12 }).map((_, i) => (
+    <motion.div
+      key={i}
+      className="absolute text-primary/40 font-mono text-[10px] whitespace-nowrap"
+      initial={{ y: 150, opacity: 0 }}
+      animate={{ y: -150, opacity: [0, 1, 0] }}
+      transition={{
+        duration: 2 + Math.random() * 3,
+        repeat: Infinity,
+        delay: Math.random() * 2,
+        ease: "linear"
+      }}
+      style={{ left: `${10 + Math.random() * 80}%` }}
+    >
+      {Math.random().toString(2).substring(2, 10)}
+    </motion.div>
+  ));
+
+  return (
+    <div className="absolute inset-0 flex flex-col items-center justify-center overflow-hidden bg-background rounded-2xl">
+      {/* Grid de Fundo da Câmara */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#1E293B_1px,transparent_1px),linear-gradient(to_bottom,#1E293B_1px,transparent_1px)] bg-[size:1rem_1rem] opacity-40" />
+
+      {/* Partículas de dados subindo */}
+      {binaryStream}
+
+      {/* Área Central de Escaneamento */}
+      <div className="relative w-40 h-40 flex items-center justify-center mt-6">
+        
+        {/* 1. Estado Material (Prédio/Empresa) */}
+        <motion.div
+          className="absolute inset-0 flex items-center justify-center text-slate-300"
+          animate={{ clipPath: ["inset(0% 0 0% 0)", "inset(100% 0 0% 0)", "inset(0% 0 0% 0)"] }}
+          transition={{ duration: 4, ease: "linear", repeat: Infinity }}
+        >
+          <Building2 className="w-20 h-20" strokeWidth={1.5} />
+        </motion.div>
+
+        {/* 2. Estado em Dados (Binário) revelado pelo laser */}
+        <motion.div
+          className="absolute inset-0 flex items-center justify-center text-primary drop-shadow-[0_0_15px_rgba(56,189,248,0.8)]"
+          animate={{ clipPath: ["inset(0% 0 100% 0)", "inset(0% 0 0% 0)", "inset(0% 0 100% 0)"] }}
+          transition={{ duration: 4, ease: "linear", repeat: Infinity }}
+        >
+          <Binary className="w-20 h-20" strokeWidth={2} />
+        </motion.div>
+
+        {/* 3. Feixe de Laser Scanner */}
+        <motion.div
+          className="absolute left-[-10%] right-[-10%] h-[2px] bg-white shadow-[0_0_20px_4px_#38BDF8]"
+          animate={{ top: ["0%", "100%", "0%"] }}
+          transition={{ duration: 4, ease: "linear", repeat: Infinity }}
+        />
+
+        {/* Moldura da lente de análise */}
+        <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-primary/50 rounded-tl-lg" />
+        <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-primary/50 rounded-tr-lg" />
+        <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-primary/50 rounded-bl-lg" />
+        <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-primary/50 rounded-br-lg" />
+      </div>
+
+      {/* Etiqueta de Status */}
+      <div className="absolute bottom-6 flex items-center gap-2 text-[10px] font-mono text-primary bg-primary/10 px-3 py-1.5 rounded-full border border-primary/20 backdrop-blur-md">
+        <span className="relative flex h-1.5 w-1.5">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+          <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary"></span>
+        </span>
+        TAB_ANALYSIS_RUNNING
+      </div>
+    </div>
+  );
+};
+// -----------------------------
 
 const Nav = () => {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -98,7 +174,6 @@ const Hero = () => {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="relative hidden lg:block"
         >
-          {/* Dashboard/Estratégia visual mock */}
           <div className="relative w-full aspect-square">
             <div className="absolute inset-0 bg-gradient-to-tr from-card to-background border border-white/10 rounded-2xl p-6 shadow-2xl flex flex-col z-10 backdrop-blur-xl">
               <div className="flex justify-between items-center border-b border-white/5 pb-4 mb-6">
@@ -133,7 +208,6 @@ const Hero = () => {
                 </div>
                 <div className="col-span-2 bg-white/5 border border-white/5 rounded-lg p-4 h-32 relative overflow-hidden">
                   <div className="text-xs text-muted-foreground mb-2">Fluxo Estratégico</div>
-                  {/* Linha de gráfico fake */}
                   <svg className="absolute bottom-0 left-0 w-full h-20" preserveAspectRatio="none" viewBox="0 0 100 100">
                     <path d="M0,100 L0,50 Q25,80 50,30 T100,20 L100,100 Z" fill="rgba(56,189,248,0.1)" stroke="rgba(56,189,248,0.5)" strokeWidth="2" />
                   </svg>
@@ -141,7 +215,6 @@ const Hero = () => {
               </div>
             </div>
 
-            {/* Decorações flutuantes atrás do card */}
             <div className="absolute -top-10 -right-10 w-full h-full border border-primary/20 rounded-2xl -z-10" />
             <div className="absolute -bottom-10 -left-10 w-full h-full border border-indigo-500/20 rounded-2xl -z-10" />
           </div>
@@ -151,7 +224,8 @@ const Hero = () => {
   );
 };
 
-const ServiceSection = ({ id, title, subtitle, icon: Icon, features, isReversed = false }: any) => {
+// Alterado para aceitar a propriedade customVisual
+const ServiceSection = ({ id, title, subtitle, icon: Icon, features, isReversed = false, customVisual }: any) => {
   return (
     <section id={id} className={`py-24 relative overflow-hidden ${isReversed ? 'bg-white/[0.02]' : ''}`}>
       {isReversed && (
@@ -186,17 +260,26 @@ const ServiceSection = ({ id, title, subtitle, icon: Icon, features, isReversed 
           <div className="flex-1 w-full aspect-[4/3] relative group perspective-1000">
             <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-indigo-500/10 rounded-2xl blur-xl transition-all duration-500 group-hover:blur-2xl" />
             <div className="absolute inset-0 bg-card border border-white/10 rounded-2xl overflow-hidden flex flex-col shadow-2xl transition-transform duration-500 group-hover:scale-[1.02]">
-              <div className="h-10 border-b border-white/5 bg-white/[0.02] flex items-center px-4 gap-2">
+              <div className="h-10 border-b border-white/5 bg-white/[0.02] flex items-center px-4 gap-2 z-20">
                 <div className="w-2.5 h-2.5 rounded-full bg-white/10" />
                 <div className="w-2.5 h-2.5 rounded-full bg-white/10" />
                 <div className="w-2.5 h-2.5 rounded-full bg-white/10" />
               </div>
-              <div className="flex-1 p-8 flex flex-col items-center justify-center text-center relative overflow-hidden">
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(56,189,248,0.1)_0%,transparent_70%)]" />
-                <Icon className="w-16 h-16 text-primary/40 mb-6 relative z-10 drop-shadow-[0_0_15px_rgba(56,189,248,0.3)]" />
-                <h3 className="font-heading font-bold text-xl mb-2 text-white relative z-10">{title}</h3>
-                <p className="text-sm text-muted-foreground relative z-10">Infraestrutura construída para resiliência e alta performance.</p>
-              </div>
+              
+              {/* Lógica condicional: Se tiver customVisual, renderiza a animação. Se não, renderiza o padrão. */}
+              {customVisual ? (
+                <div className="flex-1 relative">
+                  {customVisual}
+                </div>
+              ) : (
+                <div className="flex-1 p-8 flex flex-col items-center justify-center text-center relative overflow-hidden">
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(56,189,248,0.1)_0%,transparent_70%)]" />
+                  <Icon className="w-16 h-16 text-primary/40 mb-6 relative z-10 drop-shadow-[0_0_15px_rgba(56,189,248,0.3)]" />
+                  <h3 className="font-heading font-bold text-xl mb-2 text-white relative z-10">{title}</h3>
+                  <p className="text-sm text-muted-foreground relative z-10">Infraestrutura construída para resiliência e alta performance.</p>
+                </div>
+              )}
+              
             </div>
           </div>
 
@@ -213,11 +296,13 @@ const App = () => {
       <main>
         <Hero />
 
+        {/* Passando o customVisual={<TabScanner />} apenas para esta primeira seção */}
         <ServiceSection
           id="solucoes"
           title="Engenharia & Software"
           subtitle="Arquitetura de sistemas e desenvolvimento sob medida focados na escalabilidade, segurança e eficiência dos seus processos de negócio."
           icon={Code2}
+          customVisual={<TabScanner />} 
           features={[
             {
               title: "Sistemas Sob Encomenda",
