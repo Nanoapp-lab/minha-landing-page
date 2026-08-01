@@ -9,9 +9,7 @@ import {
   Menu,
   X,
   ShieldCheck,
-  Cpu,
-  Building2,
-  Binary
+  Cpu
 } from 'lucide-react';
 
 const TechBackground = () => (
@@ -23,82 +21,23 @@ const TechBackground = () => (
   </div>
 );
 
-// --- NOVA ANIMAÇÃO TAB ---
-const TabScanner = () => {
-  // Gera fluxos de dados flutuantes aleatórios
-  const binaryStream = Array.from({ length: 12 }).map((_, i) => (
-    <motion.div
-      key={i}
-      className="absolute text-primary/40 font-mono text-[10px] whitespace-nowrap"
-      initial={{ y: 150, opacity: 0 }}
-      animate={{ y: -150, opacity: [0, 1, 0] }}
-      transition={{
-        duration: 2 + Math.random() * 3,
-        repeat: Infinity,
-        delay: Math.random() * 2,
-        ease: "linear"
-      }}
-      style={{ left: `${10 + Math.random() * 80}%` }}
+// --- COMPONENTE DO SEU VÍDEO TAB ---
+const VideoScanner = () => (
+  <div className="absolute inset-0 bg-[#020617] rounded-2xl overflow-hidden shadow-[0_0_30px_rgba(56,189,248,0.15)] group-hover:shadow-[0_0_40px_rgba(56,189,248,0.3)] transition-shadow duration-500">
+    <video
+      autoPlay
+      loop
+      muted
+      playsInline
+      className="absolute inset-0 w-full h-full object-cover"
     >
-      {Math.random().toString(2).substring(2, 10)}
-    </motion.div>
-  ));
-
-  return (
-    <div className="absolute inset-0 flex flex-col items-center justify-center overflow-hidden bg-background rounded-2xl">
-      {/* Grid de Fundo da Câmara */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#1E293B_1px,transparent_1px),linear-gradient(to_bottom,#1E293B_1px,transparent_1px)] bg-[size:1rem_1rem] opacity-40" />
-
-      {/* Partículas de dados subindo */}
-      {binaryStream}
-
-      {/* Área Central de Escaneamento */}
-      <div className="relative w-40 h-40 flex items-center justify-center mt-6">
-        
-        {/* 1. Estado Material (Prédio/Empresa) */}
-        <motion.div
-          className="absolute inset-0 flex items-center justify-center text-slate-300"
-          animate={{ clipPath: ["inset(0% 0 0% 0)", "inset(100% 0 0% 0)", "inset(0% 0 0% 0)"] }}
-          transition={{ duration: 4, ease: "linear", repeat: Infinity }}
-        >
-          <Building2 className="w-20 h-20" strokeWidth={1.5} />
-        </motion.div>
-
-        {/* 2. Estado em Dados (Binário) revelado pelo laser */}
-        <motion.div
-          className="absolute inset-0 flex items-center justify-center text-primary drop-shadow-[0_0_15px_rgba(56,189,248,0.8)]"
-          animate={{ clipPath: ["inset(0% 0 100% 0)", "inset(0% 0 0% 0)", "inset(0% 0 100% 0)"] }}
-          transition={{ duration: 4, ease: "linear", repeat: Infinity }}
-        >
-          <Binary className="w-20 h-20" strokeWidth={2} />
-        </motion.div>
-
-        {/* 3. Feixe de Laser Scanner */}
-        <motion.div
-          className="absolute left-[-10%] right-[-10%] h-[2px] bg-white shadow-[0_0_20px_4px_#38BDF8]"
-          animate={{ top: ["0%", "100%", "0%"] }}
-          transition={{ duration: 4, ease: "linear", repeat: Infinity }}
-        />
-
-        {/* Moldura da lente de análise */}
-        <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-primary/50 rounded-tl-lg" />
-        <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-primary/50 rounded-tr-lg" />
-        <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-primary/50 rounded-bl-lg" />
-        <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-primary/50 rounded-br-lg" />
-      </div>
-
-      {/* Etiqueta de Status */}
-      <div className="absolute bottom-6 flex items-center gap-2 text-[10px] font-mono text-primary bg-primary/10 px-3 py-1.5 rounded-full border border-primary/20 backdrop-blur-md">
-        <span className="relative flex h-1.5 w-1.5">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-          <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary"></span>
-        </span>
-        TAB_ANALYSIS_RUNNING
-      </div>
-    </div>
-  );
-};
-// -----------------------------
+      <source src="/video-tab.mp4" type="video/mp4" />
+    </video>
+    {/* Overlay sutil para harmonizar a cor do vídeo com o brilho neon do site */}
+    <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent mix-blend-overlay pointer-events-none"></div>
+  </div>
+);
+// -----------------------------------
 
 const Nav = () => {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -224,7 +163,6 @@ const Hero = () => {
   );
 };
 
-// Alterado para aceitar a propriedade customVisual
 const ServiceSection = ({ id, title, subtitle, icon: Icon, features, isReversed = false, customVisual }: any) => {
   return (
     <section id={id} className={`py-24 relative overflow-hidden ${isReversed ? 'bg-white/[0.02]' : ''}`}>
@@ -266,7 +204,7 @@ const ServiceSection = ({ id, title, subtitle, icon: Icon, features, isReversed 
                 <div className="w-2.5 h-2.5 rounded-full bg-white/10" />
               </div>
               
-              {/* Lógica condicional: Se tiver customVisual, renderiza a animação. Se não, renderiza o padrão. */}
+              {/* Onde a mágica acontece: chamando o vídeo aqui! */}
               {customVisual ? (
                 <div className="flex-1 relative">
                   {customVisual}
@@ -296,13 +234,13 @@ const App = () => {
       <main>
         <Hero />
 
-        {/* Passando o customVisual={<TabScanner />} apenas para esta primeira seção */}
+        {/* Adicionando o Componente do Vídeo na primeira seção */}
         <ServiceSection
           id="solucoes"
           title="Engenharia & Software"
           subtitle="Arquitetura de sistemas e desenvolvimento sob medida focados na escalabilidade, segurança e eficiência dos seus processos de negócio."
           icon={Code2}
-          customVisual={<TabScanner />} 
+          customVisual={<VideoScanner />} 
           features={[
             {
               title: "Sistemas Sob Encomenda",
