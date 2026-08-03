@@ -32,7 +32,7 @@ const VideoScanner = () => (
       playsInline
       className="absolute inset-0 w-full h-full object-cover"
     >
-      <source src="/video-tab.mp4" type="video/mp4" />
+     <source src={videoTab} type="video/mp4" />
     </video>
     {/* Overlay sutil para harmonizar a cor do vídeo com o brilho neon do site */}
     <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent mix-blend-overlay pointer-events-none"></div>
