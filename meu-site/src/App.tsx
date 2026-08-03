@@ -26,20 +26,18 @@ const TechBackground = () => (
 const VideoScanner = () => (
   <div className="absolute inset-0 bg-[#020617] rounded-2xl overflow-hidden shadow-[0_0_30px_rgba(56,189,248,0.15)] group-hover:shadow-[0_0_40px_rgba(56,189,248,0.3)] transition-shadow duration-500">
     <video
+      src={videoTab} /* <-- COLOCAMOS O SRC DIRETAMENTE AQUI */
       autoPlay
       loop
       muted
       playsInline
       className="absolute inset-0 w-full h-full object-cover"
-    >
-     <source src={videoTab} type="video/mp4" />
-    </video>
+    />
     {/* Overlay sutil para harmonizar a cor do vídeo com o brilho neon do site */}
     <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent mix-blend-overlay pointer-events-none"></div>
   </div>
 );
 // -----------------------------------
-
 const Nav = () => {
   const [isOpen, setIsOpen] = React.useState(false);
 
