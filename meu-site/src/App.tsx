@@ -25,7 +25,7 @@ const TechBackground = () => (
 const VideoScanner = () => (
   <div className="absolute inset-0 bg-[#020617] rounded-2xl overflow-hidden shadow-[0_0_30px_rgba(56,189,248,0.15)] group-hover:shadow-[0_0_40px_rgba(56,189,248,0.3)] transition-shadow duration-500">
     <video
-      src={videoTab} /* <-- COLOCAMOS O SRC DIRETAMENTE AQUI */
+      src="/video-tab.mp4"
       autoPlay
       loop
       muted
@@ -37,6 +37,7 @@ const VideoScanner = () => (
   </div>
 );
 // -----------------------------------
+
 const Nav = () => {
   const [isOpen, setIsOpen] = React.useState(false);
 
@@ -161,7 +162,22 @@ const Hero = () => {
   );
 };
 
-const ServiceSection = ({ id, title, subtitle, icon: Icon, features, isReversed = false, customVisual }: any) => {
+interface FeatureItem {
+  title: string;
+  desc: string;
+}
+
+interface ServiceSectionProps {
+  id: string;
+  title: string;
+  subtitle: string;
+  icon: React.ComponentType<{ className?: string }>;
+  features: FeatureItem[];
+  isReversed?: boolean;
+  customVisual?: React.ReactNode;
+}
+
+const ServiceSection = ({ id, title, subtitle, icon: Icon, features, isReversed = false, customVisual }: ServiceSectionProps) => {
   return (
     <section id={id} className={`py-24 relative overflow-hidden ${isReversed ? 'bg-white/[0.02]' : ''}`}>
       {isReversed && (
@@ -170,51 +186,30 @@ const ServiceSection = ({ id, title, subtitle, icon: Icon, features, isReversed 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className={`flex flex-col lg:flex-row gap-16 items-center ${isReversed ? 'lg:flex-row-reverse' : ''}`}>
 
-<div className="flex-1 space-y-8">
+          <div className="flex-1 space-y-8">
+            <div className="inline-flex items-center justify-center w-14 h-14 bg-primary/10 rounded-xl text-primary border border-primary/20 shadow-[0_0_15px_rgba(56,189,248,0.15)]">
+              <Icon className="w-7 h-7" />
+            </div>
 
-<div className="inline-flex items-center justify-center w-14 h-14 bg-primary/10 rounded-xl text-primary border border-primary/20 shadow-[0_0_15px_rgba(56,189,248,0.15)]">
+            <div>
+              <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4 text-white">{title}</h2>
+              <p className="text-lg text-muted-foreground">{subtitle}</p>
+            </div>
 
-<Icon className="w-7 h-7" />
-
-</div>
-
-<div>
-
-<h2 className="text-3xl md:text-4xl font-heading font-bold mb-4 text-white">{title}</h2>
-
-<p className="text-lg text-muted-foreground">{subtitle}</p>
-
-</div>
-
-<div className="grid gap-4">
-
-{features.map((feature, idx) => (
-
-<div key={idx} className="flex gap-4 p-5 rounded-lg border border-white/5 bg-white/[0.01] hover:bg-white/[0.03] hover:border-primary/30 transition-all group cursor-default">
-
-<div className="mt-1">
-
-<ChevronRight className="w-5 h-5 text-primary/50 group-hover:text-primary transition-colors" />
-
-</div>
-
-<div>
-
-<h3 className="font-bold text-white mb-1.5">{feature.title}</h3>
-
-<p className="text-sm text-muted-foreground leading-relaxed">{feature.desc}</p>
-
-</div>
-
-</div>
-
-))}
-
-</div>
-
-</div>
-
-
+            <div className="grid gap-4">
+              {features.map((feature: FeatureItem, idx: number) => (
+                <div key={idx} className="flex gap-4 p-5 rounded-lg border border-white/5 bg-white/[0.01] hover:bg-white/[0.03] hover:border-primary/30 transition-all group cursor-default">
+                  <div className="mt-1">
+                    <ChevronRight className="w-5 h-5 text-primary/50 group-hover:text-primary transition-colors" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-white mb-1.5">{feature.title}</h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed">{feature.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
 
           <div className="flex-1 w-full aspect-[4/3] relative group perspective-1000">
             <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-indigo-500/10 rounded-2xl blur-xl transition-all duration-500 group-hover:blur-2xl" />
@@ -225,7 +220,6 @@ const ServiceSection = ({ id, title, subtitle, icon: Icon, features, isReversed 
                 <div className="w-2.5 h-2.5 rounded-full bg-white/10" />
               </div>
               
-              {/* Onde a mágica acontece: chamando o vídeo aqui! */}
               {customVisual ? (
                 <div className="flex-1 relative">
                   {customVisual}
@@ -238,7 +232,6 @@ const ServiceSection = ({ id, title, subtitle, icon: Icon, features, isReversed 
                   <p className="text-sm text-muted-foreground relative z-10">Infraestrutura construída para resiliência e alta performance.</p>
                 </div>
               )}
-              
             </div>
           </div>
 
@@ -255,7 +248,6 @@ const App = () => {
       <main>
         <Hero />
 
-        {/* Adicionando o Componente do Vídeo na primeira seção */}
         <ServiceSection
           id="solucoes"
           title="Engenharia & Software"
