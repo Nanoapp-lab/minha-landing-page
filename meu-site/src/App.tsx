@@ -1,5 +1,4 @@
 import React from 'react';
-import videoTab from './assets/video-tab.mp4';
 import { motion } from "framer-motion";
 import {
   Code2,
