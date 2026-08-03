@@ -21,17 +21,19 @@ const TechBackground = () => (
   </div>
 );
 
-// --- COMPONENTE DO SEU VÍDEO TAB ---
+// --- COMPONENTE DO SEU VÍDEO TAB CORRIGIDO ---
 const VideoScanner = () => (
   <div className="absolute inset-0 bg-[#020617] rounded-2xl overflow-hidden shadow-[0_0_30px_rgba(56,189,248,0.15)] group-hover:shadow-[0_0_40px_rgba(56,189,248,0.3)] transition-shadow duration-500">
     <video
-  src="/video.mp4"
-  autoPlay
-  loop
-  muted
-  playsInline
-  className="absolute inset-0 w-full h-full object-cover"
-/>
+      src="/video-tab.mp4"
+      autoPlay
+      loop
+      muted
+      playsInline
+      className="absolute inset-0 w-full h-full object-cover"
+    >
+      Seu navegador não suporta vídeos.
+    </video>
     {/* Overlay sutil para harmonizar a cor do vídeo com o brilho neon do site */}
     <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent mix-blend-overlay pointer-events-none"></div>
   </div>
