@@ -335,7 +335,7 @@ return (
 
 <div className="grid gap-4">
 
-{features.map((feature, idx) => (
+(feature: any, idx: any) => (
 
 <div key={idx} className="flex gap-4 p-5 rounded-lg border border-white/5 bg-white/[0.01] hover:bg-white/[0.03] hover:border-primary/30 transition-all group cursor-default">
 
