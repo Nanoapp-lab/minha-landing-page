@@ -23,61 +23,23 @@ const TechBackground = () => (
   </div>
 );
 
-// --- COMPONENTE DO SEU VÍDEO TAB (EM CÓDIGO LEVE) ---
+// --- COMPONENTE DO SEU VÍDEO TAB ---
 const VideoScanner = () => (
-  <div className="absolute inset-0 bg-[#020617] rounded-2xl overflow-hidden shadow-[0_0_30px_rgba(56,189,248,0.15)] group-hover:shadow-[0_0_40px_rgba(56,189,248,0.3)] transition-shadow duration-500 flex items-center justify-center">
-    
-    <div className="absolute inset-0 bg-[linear-gradient(to_right,#1E293B_1px,transparent_1px),linear-gradient(to_bottom,#1E293B_1px,transparent_1px)] bg-[size:1.5rem_1.5rem] opacity-30" />
-
-    <div className="relative z-10 flex items-center gap-2 sm:gap-8 px-4 w-full justify-center">
-      <div className="flex flex-col items-center">
-        <div className="relative w-16 h-16 sm:w-24 sm:h-24 flex items-center justify-center">
-          <Box className="w-10 h-10 sm:w-16 sm:h-16 text-indigo-400 opacity-80" />
-          <motion.div
-            animate={{ top: ['0%', '100%', '0%'] }}
-            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-            className="absolute left-0 w-full h-[2px] bg-primary shadow-[0_0_15px_#38bdf8]"
-          />
-        </div>
-        <p className="mt-2 text-[9px] sm:text-xs font-mono text-indigo-400 tracking-widest">MATÉRIA</p>
-      </div>
-
-      <div className="flex flex-col items-center justify-center overflow-hidden w-24 sm:w-32">
-        <motion.div
-          animate={{ x: [-20, 20], opacity: [0, 1, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
-          className="font-mono text-primary text-[10px] sm:text-sm tracking-[0.2em]"
-        >
-          0110101
-        </motion.div>
-        <motion.div
-          animate={{ x: [-20, 20], opacity: [0, 1, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity, ease: "linear", delay: 0.5 }}
-          className="font-mono text-indigo-400 text-[10px] sm:text-sm tracking-[0.2em] mt-1"
-        >
-          1001100
-        </motion.div>
-        <ArrowRight className="text-white/20 mt-2 w-4 h-4" />
-      </div>
-
-      <div className="flex flex-col items-center">
-        <div className="relative flex items-center justify-center w-16 h-16 sm:w-24 sm:h-24">
-          <Database className="w-10 h-10 sm:w-16 sm:h-16 text-primary relative z-10" />
-          <motion.div
-            animate={{ opacity: [0.3, 0.8, 0.3], scale: [0.8, 1.2, 0.8] }}
-            transition={{ duration: 2, repeat: Infinity }}
-            className="absolute inset-0 bg-primary/40 blur-xl rounded-full"
-          />
-        </div>
-        <p className="mt-2 text-[10px] sm:text-xs font-bold font-mono text-primary tracking-widest">NÚCLEO TAB</p>
-      </div>
-    </div>
-
+  <div className="absolute inset-0 bg-[#020617] rounded-2xl overflow-hidden shadow-[0_0_30px_rgba(56,189,248,0.15)] group-hover:shadow-[0_0_40px_rgba(56,189,248,0.3)] transition-shadow duration-500">
+    <video
+      src="/video-tab.mp4"
+      autoPlay
+      loop
+      muted
+      playsInline
+      className="absolute inset-0 w-full h-full object-cover"
+    >
+      Seu navegador não suporta vídeos.
+    </video>
     <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent mix-blend-overlay pointer-events-none"></div>
   </div>
 );
-// ------------------------------------
-
+// -----------------------------------
 const Nav = () => {
   const [isOpen, setIsOpen] = React.useState(false);
 
