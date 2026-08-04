@@ -32,12 +32,13 @@ const VideoScanner = () => (
       loop
       muted
       playsInline
-      controls  /* <-- ISSO ADICIONA O BOTÃO DE VOLUME E PLAY */
-      className="absolute inset-0 w-full h-full object-cover"
+      controls
+      className="absolute inset-0 w-full h-full object-cover z-20"
     >
       Seu navegador não suporta vídeos.
     </video>
-    <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent mix-blend-overlay pointer-events-none"></div>
+    {/* O pointer-events-none garante que o clique do mouse passe direto para o botão de volume do vídeo */}
+    <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent mix-blend-overlay pointer-events-none z-30"></div>
   </div>
 );
 // -----------------------------------
