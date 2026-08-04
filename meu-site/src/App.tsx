@@ -10,8 +10,8 @@ import {
   X,
   ShieldCheck,
   Cpu,
-  Box,        // ADICIONE ESTE
-  Database    // ADICIONE ESTE
+  Box,
+  Database
 } from 'lucide-react';
 
 const TechBackground = () => (
@@ -23,22 +23,16 @@ const TechBackground = () => (
   </div>
 );
 
-// --- COMPONENTE DO SEU VÍDEO TAB (AGORA EM CÓDIGO LEVE!) ---
+// --- COMPONENTE DO SEU VÍDEO TAB (EM CÓDIGO LEVE) ---
 const VideoScanner = () => (
   <div className="absolute inset-0 bg-[#020617] rounded-2xl overflow-hidden shadow-[0_0_30px_rgba(56,189,248,0.15)] group-hover:shadow-[0_0_40px_rgba(56,189,248,0.3)] transition-shadow duration-500 flex items-center justify-center">
     
-    {/* Fundo com grade estilo Matrix/Digital */}
     <div className="absolute inset-0 bg-[linear-gradient(to_right,#1E293B_1px,transparent_1px),linear-gradient(to_bottom,#1E293B_1px,transparent_1px)] bg-[size:1.5rem_1.5rem] opacity-30" />
 
-    {/* Cena Principal */}
     <div className="relative z-10 flex items-center gap-2 sm:gap-8 px-4 w-full justify-center">
-      
-      {/* 1. Objeto 3D Sendo Escaneado */}
       <div className="flex flex-col items-center">
         <div className="relative w-16 h-16 sm:w-24 sm:h-24 flex items-center justify-center">
           <Box className="w-10 h-10 sm:w-16 sm:h-16 text-indigo-400 opacity-80" />
-          
-          {/* Laser do Scanner (animado subindo e descendo) */}
           <motion.div
             animate={{ top: ['0%', '100%', '0%'] }}
             transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
@@ -48,7 +42,6 @@ const VideoScanner = () => (
         <p className="mt-2 text-[9px] sm:text-xs font-mono text-indigo-400 tracking-widest">MATÉRIA</p>
       </div>
 
-      {/* 2. Fluxo de Dados Binários Animados */}
       <div className="flex flex-col items-center justify-center overflow-hidden w-24 sm:w-32">
         <motion.div
           animate={{ x: [-20, 20], opacity: [0, 1, 0] }}
@@ -67,12 +60,9 @@ const VideoScanner = () => (
         <ArrowRight className="text-white/20 mt-2 w-4 h-4" />
       </div>
 
-      {/* 3. Ícone TAB (Receptor de Dados) */}
       <div className="flex flex-col items-center">
         <div className="relative flex items-center justify-center w-16 h-16 sm:w-24 sm:h-24">
           <Database className="w-10 h-10 sm:w-16 sm:h-16 text-primary relative z-10" />
-          
-          {/* Brilho pulsante do núcleo TAB */}
           <motion.div
             animate={{ opacity: [0.3, 0.8, 0.3], scale: [0.8, 1.2, 0.8] }}
             transition={{ duration: 2, repeat: Infinity }}
@@ -83,7 +73,6 @@ const VideoScanner = () => (
       </div>
     </div>
 
-    {/* Overlay para dar um toque cinematográfico */}
     <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent mix-blend-overlay pointer-events-none"></div>
   </div>
 );
