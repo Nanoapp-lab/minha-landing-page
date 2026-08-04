@@ -32,6 +32,7 @@ const VideoScanner = () => (
       loop
       muted
       playsInline
+      controls  /* <-- ISSO ADICIONA O BOTÃO DE VOLUME E PLAY */
       className="absolute inset-0 w-full h-full object-cover"
     >
       Seu navegador não suporta vídeos.
