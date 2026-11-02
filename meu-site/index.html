@@ -9,9 +9,22 @@
     <!-- Aqui está o nome que vai aparecer na aba! -->
     <title>ZETRIV - Engenharia & Software</title>
   </head>
-  <body>
-<!-- resto do seu código continua aqui... -->
-    <div id="root"></div>
+  <body style="margin: 0; display: flex; flex-direction: column; min-height: 100vh; background-color: #0f172a; color: #f1f5f9; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+    
+    <!-- Aplicação React (onde todo o seu site React é montado) -->
+    <div id="root" style="flex: 1;"></div>
+
+    <!-- Rodapé Global da Zetriv com o link para a Política de Privacidade -->
+    <footer style="background-color: #020617; color: #94a3b8; padding: 24px 20px; text-align: center; font-size: 0.85rem; border-top: 1px solid rgba(255,255,255,0.1);">
+      <p style="margin: 0 0 6px 0;">© 2026 Zetriv Technologies. Todos os direitos reservados.</p>
+      <p style="margin: 0 0 10px 0; font-size: 0.8rem;">CNPJ: 67.792.385/0001-48</p>
+      <p style="margin: 0;">
+        <a href="/politica-de-privacidade.html" target="_blank" rel="noopener noreferrer" style="color: #38bdf8; text-decoration: none; font-weight: 600;">
+          Política de Privacidade
+        </a>
+      </p>
+    </footer>
+
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
